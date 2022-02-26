@@ -1,9 +1,4 @@
-import time
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from selenium.common.exceptions import NoSuchElementException
-from cvswriter import cb_cvs_writer
+from HelperFunctions import *
 
 PATH = Service('C:\Program Files (x86)\chromedriver.exe')
 sign_in_url = 'https://myap.collegeboard.org/login'
