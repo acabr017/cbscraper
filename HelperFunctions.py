@@ -4,8 +4,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.common.exceptions import NoSuchElementException
 
-def cb_cvs_writer(rows):
-    assessment_csv = 'assessment.csv'
+
+def cb_cvs_writer(driver):
+    rows = driver.find_elements(By.TAG_NAME, 'tr')
+    assignment_name = driver.find_element(By.CSS_SELECTOR, 'h1.text-center').text
+    assessment_csv = str(assignment_name) + '.csv'
     header = 'Question Number, Topic, Skill, Correct, Incorrect, Blank, Total \n'
     file = open(assessment_csv, 'w')
     file.write(header)
@@ -28,5 +31,7 @@ def cb_cvs_writer(rows):
         except NoSuchElementException:
             correct = '0'
 
-        file.write(question_number + ',' + topic + ',' + skill + ',' + correct + ',' + incorrect + ',' + blank + ',' + str(int(correct) + int(incorrect) + int(blank)) + '\n')
+        file.write(
+            question_number + ',' + topic + ',' + skill + ',' + correct + ',' + incorrect + ',' + blank + ',' + str(
+                int(correct) + int(incorrect) + int(blank)) + '\n')
     file.close()

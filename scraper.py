@@ -19,5 +19,5 @@ time.sleep(5)
 url = "https://apclassroom.collegeboard.org/92/assessments/results/44812277/questions"
 driver.get(url)
 time.sleep(10)
-rows = driver.find_elements(By.TAG_NAME, 'tr')
-cb_cvs_writer(rows)
+
+cb_cvs_writer(driver)
