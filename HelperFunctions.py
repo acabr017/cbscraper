@@ -7,15 +7,28 @@ from selenium.common.exceptions import NoSuchElementException
 
 def cb_cvs_writer(driver):
     rows = driver.find_elements(By.TAG_NAME, 'tr')
+    #import pdb; pdb.set_trace()
     assignment_name = driver.find_element(By.CSS_SELECTOR, 'h1.text-center').text
     assessment_csv = str(assignment_name) + '.csv'
     header = 'Question Number, Topic, Skill, Correct, Incorrect, Blank, Total \n'
     file = open(assessment_csv, 'w')
     file.write(header)
-    for row in rows[1:22]:
-        question_number = str(row.find_element(By.CLASS_NAME, 'font-bold').text)
-        topic = str(row.find_element(By.TAG_NAME, 'button ').text)
-        skill = str(row.find_element(By.CLASS_NAME, 'PracticeSkillsContainer').text)
+    for row in rows:
+        try:
+            question_number = str(row.find_element(By.CLASS_NAME, 'font-bold').text)
+        except NoSuchElementException:
+            continue
+        topics = row.find_elements(By.TAG_NAME, 'button ')
+        topic = ""
+        for t in topics:
+            topic += str(t.text)
+            topic += " "
+
+        skills = row.find_elements(By.CLASS_NAME, 'PracticeSkillsContainer')
+        skill = ""
+        for s in skills:
+            skill += str(s.text).replace("\n"," ")
+            skill += " "
         try:
             blank = row.find_element(By.CSS_SELECTOR, 'div.cursor-pointer.stack.--default').text
         except NoSuchElementException:
