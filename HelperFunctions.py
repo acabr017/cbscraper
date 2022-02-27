@@ -1,4 +1,4 @@
-import time
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -10,7 +10,7 @@ def cb_cvs_writer(driver):
     #import pdb; pdb.set_trace()
     assignment_name = driver.find_element(By.CSS_SELECTOR, 'h1.text-center').text
     assessment_csv = str(assignment_name) + '.csv'
-    header = 'Question Number, Topic, Skill, Correct, Incorrect, Blank, Total \n'
+    header = 'Question Number, Topic, Skill, Correct, Partial, Incorrect, Blank, Total \n'
     file = open(assessment_csv, 'w')
     file.write(header)
     for row in rows:
@@ -27,7 +27,7 @@ def cb_cvs_writer(driver):
         skills = row.find_elements(By.CLASS_NAME, 'PracticeSkillsContainer')
         skill = ""
         for s in skills:
-            skill += str(s.text).replace("\n"," ")
+            skill += str(s.text).replace("\n", " ")
             skill += " "
         try:
             blank = row.find_element(By.CSS_SELECTOR, 'div.cursor-pointer.stack.--default').text
@@ -44,7 +44,12 @@ def cb_cvs_writer(driver):
         except NoSuchElementException:
             correct = '0'
 
+        try:
+            partial = row.find_element(By.CSS_SELECTOR, 'div.cursor-pointer.stack.--partial').text
+        except NoSuchElementException:
+            partial = '0'
+
         file.write(
-            question_number + ',' + topic + ',' + skill + ',' + correct + ',' + incorrect + ',' + blank + ',' + str(
-                int(correct) + int(incorrect) + int(blank)) + '\n')
+            question_number + ',' + topic + ',' + skill + ',' + correct + ',' + partial + ',' + incorrect + ',' + blank + ',' + str(
+                int(correct) + int(incorrect) + int(blank) + int(partial)) + '\n')
     file.close()

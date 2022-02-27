@@ -1,4 +1,5 @@
 from HelperFunctions import *
+import time
 
 PATH = Service('C:\Program Files (x86)\chromedriver.exe')
 sign_in_url = 'https://myap.collegeboard.org/login'
@@ -21,3 +22,4 @@ driver.get(url)
 time.sleep(10)
 
 cb_cvs_writer(driver)
+driver.quit()
