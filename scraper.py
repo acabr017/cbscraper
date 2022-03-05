@@ -1,5 +1,4 @@
 from HelperFunctions import *
-import time
 
 PATH = Service('C:\Program Files (x86)\chromedriver.exe')
 sign_in_url = 'https://myap.collegeboard.org/login'
@@ -19,7 +18,14 @@ time.sleep(5)
 
 url = "https://apclassroom.collegeboard.org/92/assessments/results/44812277/questions"
 driver.get(url)
-time.sleep(10)
+time.sleep(12)
+csv_writer(driver)
 
-cb_cvs_writer(driver)
-driver.quit()
+
+
+#import pdb; pdb.set_trace()
+
+
+
+
+#driver.quit()
